@@ -40,12 +40,6 @@ func TestSmartLight(t *testing.T) {
 	}
 	assert.Equal(t, expectedStatus, status)
 
-	// Test GetID
-	assert.Equal(t, "123", light.GetID())
-
-	// Test GetName
-	assert.Equal(t, "Test Light", light.GetName())
-
 	// Test GetBrightness
 	assert.Equal(t, 50, light.GetBrightness())
 

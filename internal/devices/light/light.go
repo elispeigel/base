@@ -56,16 +56,6 @@ func (l *SmartLight) GetStatus() (devices.Status, error) {
 	return status, nil
 }
 
-// GetID returns the ID of the smart light
-func (l *SmartLight) GetID() string {
-	return l.ID
-}
-
-// GetName returns the name of the smart light
-func (l *SmartLight) GetName() string {
-	return l.Name
-}
-
 // GetBrightness returns the brightness of the smart light
 func (l *SmartLight) GetBrightness() int {
 	return l.Brightness
