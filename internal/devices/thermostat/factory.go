@@ -20,10 +20,12 @@ type ConcreteThermostatFactory struct{}
 // CreateSmartThermostat creates a new smart thermostat with a unique ID, default name, off status, and volume
 func (clf *ConcreteThermostatFactory) CreateSmartThermostat() *SmartThermostat {
 	return &SmartThermostat{
-		ID:     devices.GenerateUniqueID(),
-		Name:   "Default Thermostat",
-		IsOn:   false,
-		Temperature: 50,
+		devices.DeviceBase{
+			ID:   devices.GenerateUniqueID(),
+			Name: "Default Thermostat",
+		},
+		false,
+		50,
 	}
 }
 

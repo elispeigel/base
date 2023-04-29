@@ -20,6 +20,19 @@ type Status struct {
 	IsOn       bool
 }
 
+type DeviceBase struct {
+    ID   string
+    Name string
+}
+
+func (d *DeviceBase) GetID() string {
+    return d.ID
+}
+
+func (d *DeviceBase) GetName() string {
+    return d.Name
+}
+
 // GenerateUniqueID generates a unique ID using the UUID package
 func GenerateUniqueID() string {
 	u := uuid.New()
