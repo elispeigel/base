@@ -18,8 +18,7 @@ func init() {
 }
 
 type SmartThermostat struct {
-	ID string
-	Name string
+    devices.DeviceBase
 	IsOn bool
 	Temperature int
 }

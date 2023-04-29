@@ -20,11 +20,20 @@ func init() {
 
 // SmartLight is a struct that represents a smart light
 type SmartLight struct {
-	ID         string
-	Name       string
+    devices.DeviceBase
 	IsOn       bool
 	Brightness int
 	Color      color.RGBA
+}
+
+// GetID returns the ID of the smart light
+func (l *SmartLight) GetID() string {
+	return l.ID
+}
+
+// GetName returns the name of the smart light
+func (l *SmartLight) GetName() string {
+	return l.Name
 }
 
 // TurnOn turns on the smart light and logs a message

@@ -21,11 +21,13 @@ type ConcreteLightFactory struct{}
 // CreateSmartLight creates a new smart light with a unique ID, default name, and off status
 func (clf *ConcreteLightFactory) CreateSmartLight() *SmartLight {
 	return &SmartLight{
-		ID:         devices.GenerateUniqueID(),
-		Name:       "Default Light",
-		IsOn:       false,
-		Brightness: 50,
-		Color:      color.RGBA{uint8(255), uint8(255), uint8(255), uint8(1)},
+		devices.DeviceBase{
+			ID:         devices.GenerateUniqueID(),
+			Name:       "Default Light",
+		},
+		false,
+		50,
+		color.RGBA{uint8(255), uint8(255), uint8(255), uint8(1)},
 	}
 }
 

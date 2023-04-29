@@ -18,10 +18,19 @@ func init() {
 }
 
 type SmartSpeaker struct {
-	ID     string
-	Name   string
+    devices.DeviceBase
 	IsOn   bool
 	Volume int
+}
+
+// GetID returns the ID of the smart speaker
+func (l *SmartSpeaker) GetID() string {
+	return l.ID
+}
+
+// GetName returns the name of the smart speaker
+func (l *SmartSpeaker) GetName() string {
+	return l.Name
 }
 
 // TurnOn turns on the smart speaker and logs a message

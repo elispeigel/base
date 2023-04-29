@@ -20,10 +20,12 @@ type ConcreteSpeakerFactory struct{}
 // CreateSmartSpeaker creates a new smart speaker with a unique ID, default name, off status, and volume
 func (clf *ConcreteSpeakerFactory) CreateSmartSpeaker() *SmartSpeaker {
 	return &SmartSpeaker{
-		ID:     devices.GenerateUniqueID(),
-		Name:   "Default Speaker",
-		IsOn:   false,
-		Volume: 50,
+		devices.DeviceBase{
+			ID:   devices.GenerateUniqueID(),
+			Name: "Default Speaker",
+		},
+		false,
+		50,
 	}
 }
 

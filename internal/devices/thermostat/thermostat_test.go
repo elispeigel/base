@@ -12,10 +12,12 @@ func TestSmarThermostat(t *testing.T) {
 	logger = zaptest.NewLogger(t)
 
 	thermostat := SmartThermostat{
-		ID:          "123",
-		Name:        "Test Thermostat",
-		IsOn:        false,
-		Temperature: 50,
+		devices.DeviceBase{
+			ID:   "123",
+			Name: "Test Thermostat",
+		},
+		false,
+		50,
 	}
 
 	// Test TurnOn

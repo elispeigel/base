@@ -13,11 +13,13 @@ func TestSmartLight(t *testing.T) {
 	logger = zaptest.NewLogger(t)
 
 	light := SmartLight{
-		ID:         "123",
-		Name:       "Test Light",
-		IsOn:       false,
-		Brightness: 50,
-		Color:      color.RGBA{R: 255, G: 255, B: 255, A: 255},
+		devices.DeviceBase{
+			ID:   "123",
+			Name: "Test Light",
+		},
+		false,
+		50,
+		color.RGBA{R: 255, G: 255, B: 255, A: 255},
 	}
 
 	// Test TurnOn

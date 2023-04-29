@@ -12,10 +12,12 @@ func TestSmartSpeaker(t *testing.T) {
 	logger = zaptest.NewLogger(t)
 
 	speaker := SmartSpeaker{
-		ID:     "123",
-		Name:   "Test Speaker",
-		IsOn:   false,
-		Volume: 50,
+		devices.DeviceBase{
+			ID:   "123",
+			Name: "Test Speaker",
+		},
+		false,
+		50,
 	}
 
 	//Test TurnOn
