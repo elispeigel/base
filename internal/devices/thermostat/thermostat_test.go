@@ -1,6 +1,7 @@
 package thermostat
 
 import (
+	"base/internal/app"
 	"base/internal/devices"
 	"testing"
 
@@ -11,22 +12,26 @@ import (
 func TestSmarThermostat(t *testing.T) {
 	logger = zaptest.NewLogger(t)
 
-	thermostat := SmartThermostat{
-		devices.DeviceBase{
-			ID:   "123",
-			Name: "Test Thermostat",
-		},
-		false,
-		50,
-	}
+	// Get BaseController as mediator
+	mediator := app.GetBaseControllerInstance()
+
+	// Factory for creating SmartThermostat
+	factory := ConcreteThermostatFactory{}
+
+	// Create SmartThermostat using the factory
+	thermostat := factory.CreateSmartThermostat(mediator)
+
+	// Test RegisterDevice
+	err := mediator.RegisterDevice(thermostat)
+	assert.NoError(t, err)
 
 	// Test TurnOn
-	err := thermostat.TurnOn()
+	err = mediator.SendCommand(thermostat, "turnOn", thermostat.GetID())
 	assert.NoError(t, err)
 	assert.True(t, thermostat.IsOn)
 
 	// Test TurnOff
-	err = thermostat.TurnOff()
+	err = mediator.SendCommand(thermostat, "turnOff", thermostat.GetID())
 	assert.NoError(t, err)
 	assert.False(t, thermostat.IsOn)
 
@@ -34,8 +39,8 @@ func TestSmarThermostat(t *testing.T) {
 	status, err := thermostat.GetStatus()
 	assert.NoError(t, err)
 	expectedStatus := devices.Status{
-		DeviceID:   "123",
-		DeviceName: "Test Thermostat",
+		DeviceID:   thermostat.GetID(),
+		DeviceName: "Default Thermostat",
 		IsOn:       false,
 	}
 	assert.Equal(t, expectedStatus, status)
@@ -51,4 +56,8 @@ func TestSmarThermostat(t *testing.T) {
 	// Test SetTemperature with invalid value
 	err = thermostat.SetTemperature(-1)
 	assert.Error(t, err)
+
+	// Test DeregisterDevice
+	err = mediator.DeregisterDevice(thermostat)
+	assert.NoError(t, err)
 }

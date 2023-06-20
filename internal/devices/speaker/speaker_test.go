@@ -1,6 +1,7 @@
 package speaker
 
 import (
+	"base/internal/app"
 	"base/internal/devices"
 	"testing"
 
@@ -11,22 +12,26 @@ import (
 func TestSmartSpeaker(t *testing.T) {
 	logger = zaptest.NewLogger(t)
 
-	speaker := SmartSpeaker{
-		devices.DeviceBase{
-			ID:   "123",
-			Name: "Test Speaker",
-		},
-		false,
-		50,
-	}
+	// Get BaseController as mediator
+	mediator := app.GetBaseControllerInstance()
+
+	// Factory for creating SmartSpeaker
+	factory := ConcreteSpeakerFactory{}
+
+	// Create SmartSpeaker using the factory
+	speaker := factory.CreateSmartSpeaker(mediator)
+
+	// Test RegisterDevice
+	err := mediator.RegisterDevice(speaker)
+	assert.NoError(t, err)
 
 	//Test TurnOn
-	err := speaker.TurnOn()
+	err = mediator.SendCommand(speaker, "turnOn", speaker.GetID())
 	assert.NoError(t, err)
 	assert.True(t, speaker.IsOn)
 
 	// Test TurnOff
-	err = speaker.TurnOff()
+	err = mediator.SendCommand(speaker, "turnOff", speaker.GetID())
 	assert.NoError(t, err)
 	assert.False(t, speaker.IsOn)
 
@@ -34,8 +39,8 @@ func TestSmartSpeaker(t *testing.T) {
 	status, err := speaker.GetStatus()
 	assert.NoError(t, err)
 	expectedStatus := devices.Status{
-		DeviceID:   "123",
-		DeviceName: "Test Speaker",
+		DeviceID:   speaker.GetID(),
+		DeviceName: "Default Speaker",
 		IsOn:       false,
 	}
 	assert.Equal(t, expectedStatus, status)
@@ -51,4 +56,8 @@ func TestSmartSpeaker(t *testing.T) {
 	// Test SetVolume with invalid value
 	err = speaker.SetVolume(-1)
 	assert.Error(t, err)
+
+	// Test DeregisterDevice
+	err = mediator.DeregisterDevice(speaker)
+	assert.NoError(t, err)
 }

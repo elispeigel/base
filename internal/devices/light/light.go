@@ -1,6 +1,7 @@
 package light
 
 import (
+	"base/internal/app"
 	"base/internal/devices"
 	"fmt"
 	"image/color"
@@ -20,7 +21,8 @@ func init() {
 
 // SmartLight is a struct that represents a smart light
 type SmartLight struct {
-    devices.DeviceBase
+	devices.DeviceBase
+	mediator   app.Mediator
 	IsOn       bool
 	Brightness int
 	Color      color.RGBA

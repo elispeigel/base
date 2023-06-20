@@ -1,6 +1,7 @@
 package light
 
 import (
+	"base/internal/app"
 	"base/internal/devices"
 	"image/color"
 	"testing"
@@ -12,23 +13,26 @@ import (
 func TestSmartLight(t *testing.T) {
 	logger = zaptest.NewLogger(t)
 
-	light := SmartLight{
-		devices.DeviceBase{
-			ID:   "123",
-			Name: "Test Light",
-		},
-		false,
-		50,
-		color.RGBA{R: 255, G: 255, B: 255, A: 255},
-	}
+	// Get BaseController as mediator
+	mediator := app.GetBaseControllerInstance()
+
+	// Factory for creating SmartLight
+	factory := ConcreteLightFactory{}
+
+	// Create SmartLight using the factory
+	light := factory.CreateSmartLight(mediator)
+
+	// Test RegisterDevice
+	err := mediator.RegisterDevice(light)
+	assert.NoError(t, err)
 
 	// Test TurnOn
-	err := light.TurnOn()
+	err = mediator.SendCommand(light, "turnOn", light.GetID())
 	assert.NoError(t, err)
 	assert.True(t, light.IsOn)
 
 	// Test TurnOff
-	err = light.TurnOff()
+	err = mediator.SendCommand(light, "turnOff", light.GetID())
 	assert.NoError(t, err)
 	assert.False(t, light.IsOn)
 
@@ -36,8 +40,8 @@ func TestSmartLight(t *testing.T) {
 	status, err := light.GetStatus()
 	assert.NoError(t, err)
 	expectedStatus := devices.Status{
-		DeviceID:   "123",
-		DeviceName: "Test Light",
+		DeviceID:   light.GetID(),
+		DeviceName: "Default Light",
 		IsOn:       false,
 	}
 	assert.Equal(t, expectedStatus, status)
@@ -55,7 +59,7 @@ func TestSmartLight(t *testing.T) {
 	assert.Error(t, err)
 
 	// Test GetColor
-	assert.Equal(t, color.RGBA{R: 255, G: 255, B: 255, A: 255}, light.GetColor())
+	assert.Equal(t, color.RGBA{R: 255, G: 255, B: 255, A: 1}, light.GetColor())
 
 	// Test SetColor
 	err = light.SetColor(0, 255, 0, 255)
@@ -65,4 +69,8 @@ func TestSmartLight(t *testing.T) {
 	// Test SetColor with invalid value
 	err = light.SetColor(0, -1, 0, 255)
 	assert.Error(t, err)
+
+	// Test DeregisterDevice
+	err = mediator.DeregisterDevice(light)
+	assert.NoError(t, err)
 }
