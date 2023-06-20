@@ -1,6 +1,7 @@
 package thermostat
 
 import (
+	"base/internal/app"
 	"base/internal/devices"
 	"fmt"
 
@@ -18,7 +19,8 @@ func init() {
 }
 
 type SmartThermostat struct {
-    devices.DeviceBase
+	devices.DeviceBase
+	mediator   app.Mediator
 	IsOn bool
 	Temperature int
 }

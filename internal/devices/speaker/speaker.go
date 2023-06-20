@@ -1,6 +1,7 @@
 package speaker
 
 import (
+	"base/internal/app"
 	"base/internal/devices"
 	"fmt"
 
@@ -18,7 +19,8 @@ func init() {
 }
 
 type SmartSpeaker struct {
-    devices.DeviceBase
+	devices.DeviceBase
+	mediator   app.Mediator
 	IsOn   bool
 	Volume int
 }
