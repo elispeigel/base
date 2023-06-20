@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/elispeigel/base/compare/v1.0.0...v1.1.0) (2023-06-20)
+
+
+### Features
+
+* add mediator ([cc4caee](https://github.com/elispeigel/base/commit/cc4caeed40a44ad33df85ab7636d067d01926ccd))
+
 ## 1.0.0 (2023-04-29)
 
 
